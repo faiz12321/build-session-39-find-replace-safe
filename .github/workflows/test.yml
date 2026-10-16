@@ -1,0 +1,15 @@
+name: test
+on: [push, workflow_dispatch]
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Run small fictional adversarial checks
+        shell: pwsh
+        run: |
+          ./test_fr.ps1
+          if ($LASTEXITCODE -ne 0) { throw 'Tests failed' }
