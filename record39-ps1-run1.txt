@@ -1,0 +1,140 @@
+### CMD: .\make_sample.ps1
+Created three fictional UTF-8 files. Existing paths are refused.
+### EXIT: 0
+
+### CMD: .\make_sample.ps1
+Stopped: Sample path already exists. Nothing replaced.
+### EXIT: 1
+
+### CMD: type notes\readme.txt
+Project Bluebird kickoff
+Owner: fictional team
+### EXIT: 0
+
+### CMD: type notes\archive\old-plan.txt
+Project Bluebird + Project Bluebird
+Literal tokens: [draft] and $5
+### EXIT: 0
+
+### CMD: .\fr.ps1 count "Project Bluebird"
+archive/old-plan.txt: 2 matches
+readme.txt: 1 matches
+todo.txt: 1 matches
+Total: 4 matches in 3 files
+### EXIT: 0
+
+### CMD: .\fr.ps1 preview "Project Bluebird" "Project Heron"
+archive/old-plan.txt: 2 matches
+  line 1: Project Bluebird + Project Bluebird
+       -> Project Heron + Project Heron
+readme.txt: 1 matches
+  line 1: Project Bluebird kickoff
+       -> Project Heron kickoff
+todo.txt: 1 matches
+  line 1: Review Project Bluebird notes
+       -> Review Project Heron notes
+Total: 4 matches in 3 files
+Preview only. No file was written.
+### EXIT: 0
+
+### CMD: .\fr.ps1 apply "Project Bluebird" "Project Heron"
+Stopped: Cannot find path 'C:\Users\runneradmin\AppData\Local\Temp\lesson39-record-llklcj00\notes.fr-backup' because it does not exist.
+If a write failed, keep the backup and journal. Multi-file writes are not transactional.
+### EXIT: 1
+
+### CMD: .\check39.ps1 snapshot
+Saved all three fictional-file SHA256 digests in a new manifest.
+### EXIT: 0
+
+### CMD: .\fr.ps1 backup
+Backed up and verified 3 files. Backup retained beside root.
+### EXIT: 0
+
+### CMD: .\fr.ps1 apply "Project Bluebird" "Project Heron"
+Total: 4 matches; 3 files changed. Backup and journal retained.
+### EXIT: 0
+
+### CMD: type notes\archive\old-plan.txt
+Project Heron + Project Heron
+Literal tokens: [draft] and $5
+### EXIT: 0
+
+### CMD: .\fr.ps1 diff
+archive/old-plan.txt: bytes changed
+readme.txt: bytes changed
+todo.txt: bytes changed
+Diff: 3 files changed, 0 unchanged
+### EXIT: 0
+
+### CMD: .\fr.ps1 undo
+Restored 3 files byte-for-byte. Backup and journal retained.
+### EXIT: 0
+
+### CMD: .\check39.ps1 verify
+archive/old-plan.txt: original bytes match
+readme.txt: original bytes match
+todo.txt: original bytes match
+PASS: all three original digests and selected names match. This is a fictional fixture check only.
+### EXIT: 0
+
+### CMD: .\fr.ps1 count "Project Bluebird"
+archive/old-plan.txt: 2 matches
+readme.txt: 1 matches
+todo.txt: 1 matches
+Total: 4 matches in 3 files
+### EXIT: 0
+
+### CMD: .\test_fr.ps1
+ok 1 - setup repeat refuses
+ok 2 - setup preserves existing bytes and mtime
+ok 3 - count 4 literal case-sensitive matches
+ok 4 - preview shows before and after
+ok 5 - read-only modes preserve all bytes
+ok 6 - no backup refuses
+ok 7 - no-backup refusal leaves bytes
+ok 8 - repeat backup refuses
+ok 9 - apply changes three files
+ok 10 - literal case preserved
+ok 11 - CRLF retained
+ok 12 - repeat apply refuses
+ok 13 - diff counts byte changes
+ok 14 - undo succeeds
+ok 15 - all three original digests restored
+ok 16 - backup retained after undo
+ok 17 - second undo refuses
+ok 18 - new file after backup refuses before writes
+ok 19 - missing source refuses
+ok 20 - source edit after backup refuses
+ok 21 - tampered backup refuses
+ok 22 - extra backup file refuses
+ok 23 - wrong root manifest refuses
+ok 24 - empty unrelated backup refuses
+ok 25 - undo conflict refuses before any restore
+ok 26 - undo preserves later edit
+ok 27 - undo accepts mixed before/after state
+ok 28 - UTF8 BOM preserved after apply
+ok 29 - BOM bytes exactly restored
+ok 30 - invalid UTF8 refuses before backup creation
+ok 31 - NUL UTF16-like content refused
+ok 32 - same replacement changes zero bytes
+ok 33 - empty replacement supported
+ok 34 - empty find refused
+ok 35 - multiline find refused
+ok 36 - regex and dollar tokens treated literally
+ok 37 - setup existing regular file preserved
+ok 38 - setup nested unrelated bytes preserved
+ok 39 - hardlink refused and external bytes unchanged
+ok 40 - file symlink refuses before backup
+ok 41 - linked root refused
+ok 42 - dangling backup link refused without target creation
+SKIP: Unix case-collision and pipe checks not applicable
+ok 43 - injected mid-apply failure returns nonzero
+ok 44 - journal retained after partial failure
+ok 45 - partial apply changed exactly first file
+ok 46 - original tool recovers injected partial operation
+ok 47 - partial-failure recovery restores every selected byte
+ok 48 - undo without operation refuses
+ok 49 - parent-traversal root refused
+ok 50 - oversized selected file refused
+Results: 50 checks, 0 failures, 1 skipped groups
+### EXIT: 0
